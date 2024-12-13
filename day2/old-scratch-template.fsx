@@ -1,24 +1,13 @@
 // HOUSEKEEPING/COMMON
-let linesExample = System.IO.File.ReadLines("day/example.txt")   |> Seq.toList  |> Seq.map(fun x->x.Split("  ")) |> Seq.map(fun x->(int x.[0],int x.[1])) |> Seq.toList;;
-let linesProblem1 = System.IO.File.ReadLines("day2/problem1.txt")   |> Seq.toList  |> Seq.map(fun x->x.Split("  ")) |> Seq.map(fun x->(int x.[0],int x.[1])) |> Seq.toList;;
+let linesExample = System.IO.File.ReadLines("day2/example.txt")   |> Seq.toList  |> Seq.map(fun x->x.Split(' ')|>Seq.map(fun x->int x)  |> Seq.toList);;
+let linesProblem1 = System.IO.File.ReadLines("day2/problem1.txt")   |> Seq.toList  |> Seq.map(fun x->x.Split(' ')|>Seq.map(fun x->int x) |> Seq.toList);;
 // let linesProblem2 = System.IO.File.ReadLines("dayX\\\1/problem2.txt")   |> Seq.toList;;
 
-// Example
-let s1=linesExample|>List.sort;;
-let s2=linesExample|>List.sortBy snd;;
-let diffListExample=Seq.zip s1 s2 |> Seq.map(fun (x,y)->System.Math.Abs(fst x - snd y));;
+let isAscending lis = (lis |> List.sort)=(lis)
+let isDescending lis = (lis |> List.sortDescending)=(lis)
 
-// Problem 1
-let s1p1=linesProblem1|>List.sort;;
-let s2p1=linesProblem1|>List.sortBy snd;;
-let diffListExamplep1=Seq.zip s1p1 s2p1 |> Seq.map(fun (x,y)->System.Math.Abs(fst x - snd y));;
-// answer is diffListExample |> Seq.sum;;
-
-
-let countForEachItem le = le |> Seq.map(fun z->(le|>Seq.filter(fun y->(fst z)=(snd y)))) |> Seq.map(fun x->x|>Seq.length);;
-let p2Sum ld = Seq.zip (countForEachItem ld) ld |> Seq.map(fun(x,y)->x*fst y) |>Seq.sum
-// p2Sum linesExample follows the example for problem 2
-// psSum linesProblem1 does problem 2
+let jumpInterval lis = lis |> List.windowed 2 |> List.map(fun (x:int list)->System.Math.Abs(x.[0]-x.[1]))
+let isJumpsTooBig lis = (jumpInterval lis) |> List.max > 2
 
 // let splitBy f input =
 //   let i = ref 0d
